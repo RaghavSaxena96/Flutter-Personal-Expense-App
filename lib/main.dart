@@ -37,9 +37,42 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ...trans.map(
-                (e) => Card(child: Text(e.title)),
+                (e) => Card(
+                    child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      child: Text(
+                        e.amt.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.purple),
+                      ),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.purple, width: 2)),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          e.title,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          e.date.toString(),
+                          style: TextStyle(color: Colors.grey),
+                        )
+                      ],
+                    )
+                  ],
+                )),
               )
             ],
           )
