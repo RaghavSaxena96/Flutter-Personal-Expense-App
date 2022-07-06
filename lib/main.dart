@@ -48,7 +48,7 @@ class MyHomePage extends StatelessWidget {
                       margin:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: Text(
-                        e.amt.toString(),
+                        "\$${e.amt}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
