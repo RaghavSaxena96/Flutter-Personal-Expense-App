@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './transaction.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,6 +19,10 @@ class MyHomePage extends StatelessWidget {
     Transaction('t1', 'New Shoes', 63.34, DateTime.now()),
     Transaction('t2', 'Groceries', 100.28, DateTime.now()),
   ];
+
+  String? titleInput;
+  String? amountInput;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +30,7 @@ class MyHomePage extends StatelessWidget {
         title: Text('Flutter App'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -35,6 +40,28 @@ class MyHomePage extends StatelessWidget {
               child: Text("Chart"),
               elevation: 5,
             ),
+          ),
+          Card(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Title'),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Amount'),
+                  ),
+                  FlatButton(
+                    textColor: Colors.purple,
+                    onPressed: () {},
+                    child: Text("Add Expense"),
+                  )
+                ],
+              ),
+            ),
+            elevation: 5,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -66,7 +93,7 @@ class MyHomePage extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          e.date.toString(),
+                          DateFormat.yMMMd().format(e.date),
                           style: TextStyle(color: Colors.grey),
                         )
                       ],
