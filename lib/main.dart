@@ -1,6 +1,7 @@
+// ignore_for_file: deprecated_member_use, avoid_print, prefer_const_constructors, sort_child_properties_last
+
+import './widgets/user_transaction.dart';
 import 'package:flutter/material.dart';
-import './transaction.dart';
-import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,20 +15,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: use_key_in_widget_constructors
 class MyHomePage extends StatelessWidget {
-  final List<Transaction> trans = [
-    Transaction('t1', 'New Shoes', 63.34, DateTime.now()),
-    Transaction('t2', 'Groceries', 100.28, DateTime.now()),
-  ];
-
-  String? titleInput;
-  String? amountInput;
+  //String? titleInput;
+  //String? amountInput;
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Personal Expense'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -41,77 +40,7 @@ class MyHomePage extends StatelessWidget {
               elevation: 5,
             ),
           ),
-          Card(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Title'),
-                    onChanged: (value) {
-                      titleInput = value;
-                    },
-                  ),
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Amount'),
-                    onChanged: (value) {
-                      amountInput = value;
-                    },
-                  ),
-                  FlatButton(
-                    textColor: Colors.purple,
-                    onPressed: () {
-                      print("Title for Expense is ${titleInput}");
-                      print("Amount is ${amountInput}");
-                    },
-                    child: Text("Add Expense"),
-                  )
-                ],
-              ),
-            ),
-            elevation: 5,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ...trans.map(
-                (e) => Card(
-                    child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      child: Text(
-                        "\$${e.amt}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.purple),
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.purple, width: 2)),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          e.title,
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          DateFormat.yMMMd().format(e.date),
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      ],
-                    )
-                  ],
-                )),
-              )
-            ],
-          )
+          UserTransaction(),
         ],
       ),
     );
