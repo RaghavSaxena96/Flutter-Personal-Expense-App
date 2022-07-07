@@ -49,13 +49,22 @@ class MyHomePage extends StatelessWidget {
                 children: [
                   TextField(
                     decoration: InputDecoration(labelText: 'Title'),
+                    onChanged: (value) {
+                      titleInput = value;
+                    },
                   ),
                   TextField(
                     decoration: InputDecoration(labelText: 'Amount'),
+                    onChanged: (value) {
+                      amountInput = value;
+                    },
                   ),
                   FlatButton(
                     textColor: Colors.purple,
-                    onPressed: () {},
+                    onPressed: () {
+                      print("Title for Expense is ${titleInput}");
+                      print("Amount is ${amountInput}");
+                    },
                     child: Text("Add Expense"),
                   )
                 ],
