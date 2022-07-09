@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, avoid_print, prefer_const_constructors, sort_child_properties_last
 
+import 'package:expense/widgets/chart.dart';
 import 'package:expense/widgets/new_transaction.dart';
 
 import './widgets/transaction_list.dart';
@@ -15,9 +16,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Personal Expense',
       theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.amber,
-          fontFamily: 'Quicksand'),
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
+        fontFamily: 'Quicksand',
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+              titleLarge: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+        ),
+      ),
       home: MyHomePage(),
     );
   }
@@ -30,15 +39,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //String? titleInput;
   final titleController = TextEditingController();
 
   final amountController = TextEditingController();
 
   final List<Transaction> _userTransaction = [
-    Transaction('t1', 'New Shoes', 63.34, DateTime.now()),
-    Transaction('t2', 'Groceries', 100.28, DateTime.now()),
+    // Transaction('t1', 'New Shoes', 63.34, DateTime.now()),
+    //Transaction('t2', 'Groceries', 100.28, DateTime.now()),
   ];
+
+  List<Transaction> get _recentTransaction {
+    return (_userTransaction.where((element) =>
+            element.date.isAfter(DateTime.now().subtract(Duration(days: 7)))))
+        .toList();
+  }
 
   void _addNewTransaction(String title, double amount) {
     final newTx =
@@ -63,7 +77,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Personal Expense'),
+        title: Text(
+          'Personal Expense',
+          style: TextStyle(fontFamily: 'OpenSans'),
+        ),
         actions: [
           IconButton(
               onPressed: () => _startAddNewTransaction(context),
@@ -75,14 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text("Chart"),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransaction),
             TransactionList(_userTransaction),
           ],
         ),
