@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   Function _transactionHandler;
@@ -12,16 +13,34 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final titleController = TextEditingController();
+  final _titleController = TextEditingController();
 
-  final amountController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime? _selectdate;
+
+  void _chooseDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((value) => {
+              if (value != null)
+                {
+                  setState(() {
+                    _selectdate = value;
+                  })
+                }
+            });
+  }
 
   void submitData() {
-    if (titleController.text.isEmpty || double.parse(amountController.text) < 0)
-      return;
+    if (_titleController.text.isEmpty ||
+        double.parse(_amountController.text) < 0 ||
+        _selectdate == null) return;
 
-    widget._transactionHandler(
-        titleController.text, double.parse(amountController.text));
+    widget._transactionHandler(_titleController.text,
+        double.parse(_amountController.text), _selectdate);
 
     Navigator.of(context).pop();
   }
@@ -39,7 +58,7 @@ class _NewTransactionState extends State<NewTransaction> {
               // onChanged: (value) {
               //   titleInput = value;
               // },
-              controller: titleController,
+              controller: _titleController,
               onSubmitted: (_) => submitData(),
             ),
             TextField(
@@ -47,17 +66,19 @@ class _NewTransactionState extends State<NewTransaction> {
               //onChanged: (value) {
               //  amountInput = value;
               //},
-              controller: amountController,
+              controller: _amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
             ),
             Container(
               height: 70,
               child: Row(children: [
-                Text("No Date Choosen"),
+                Text(_selectdate == null
+                    ? "No Date Choosen"
+                    : DateFormat.yMd().format(_selectdate!)),
                 FlatButton(
                   textColor: Theme.of(context).primaryColor,
-                  onPressed: null,
+                  onPressed: _chooseDatePicker,
                   child: Text(
                     "Choose Date",
                     style: TextStyle(fontWeight: FontWeight.bold),
