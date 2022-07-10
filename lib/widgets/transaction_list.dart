@@ -12,7 +12,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 400,
       child: _userTransaction.isEmpty
           ? Column(
               children: [
@@ -33,45 +33,34 @@ class TransactionList extends StatelessWidget {
               ],
             )
           : ListView.builder(
-              itemCount: _userTransaction.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (ctx, index) {
                 return Card(
-                    child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      // ignore: sort_child_properties_last
-                      child: Text(
-                        "\$${_userTransaction[index].amt}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Theme.of(context).primaryColor),
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).primaryColor, width: 2)),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _userTransaction[index].title,
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text('\$${_userTransaction[index].amt}'),
                         ),
-                        Text(
-                          DateFormat.yMMMd()
-                              .format(_userTransaction[index].date),
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      ],
-                    )
-                  ],
-                ));
+                      ),
+                    ),
+                    title: Text(
+                      _userTransaction[index].title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(_userTransaction[index].date),
+                    ),
+                  ),
+                );
               },
+              itemCount: _userTransaction.length,
             ),
     );
   }
