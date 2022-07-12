@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import '../model/transaction.dart';
@@ -57,13 +57,22 @@ class TransactionList extends StatelessWidget {
                   subtitle: Text(
                     DateFormat.yMMMd().format(_userTransaction[index].date),
                   ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    color: Theme.of(context).errorColor,
-                    onPressed: () {
-                      _deleteTransaction(_userTransaction[index].id);
-                    },
-                  ),
+                  trailing: MediaQuery.of(context).size.width > 460
+                      ? FlatButton.icon(
+                          icon: Icon(Icons.delete),
+                          label: Text("Delete"),
+                          textColor: Theme.of(context).errorColor,
+                          onPressed: () {
+                            _deleteTransaction(_userTransaction[index].id);
+                          },
+                        )
+                      : IconButton(
+                          icon: Icon(Icons.delete),
+                          color: Theme.of(context).errorColor,
+                          onPressed: () {
+                            _deleteTransaction(_userTransaction[index].id);
+                          },
+                        ),
                 ),
               );
             },
