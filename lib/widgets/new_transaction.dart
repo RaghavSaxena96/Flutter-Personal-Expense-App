@@ -1,7 +1,9 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, sort_child_properties_last
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/cupertino.dart';
 
 class NewTransaction extends StatefulWidget {
   Function _transactionHandler;
@@ -81,14 +83,22 @@ class _NewTransactionState extends State<NewTransaction> {
                   Text(_selectdate == null
                       ? "No Date Choosen"
                       : DateFormat.yMd().format(_selectdate!)),
-                  FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    onPressed: _chooseDatePicker,
-                    child: Text(
-                      "Choose Date",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
+                  Platform.isIOS
+                      ? CupertinoButton(
+                          onPressed: _chooseDatePicker,
+                          child: Text(
+                            "Choose Date",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : FlatButton(
+                          textColor: Theme.of(context).primaryColor,
+                          onPressed: _chooseDatePicker,
+                          child: Text(
+                            "Choose Date",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        )
                 ]),
               ),
               RaisedButton(
